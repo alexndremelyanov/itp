@@ -1,3 +1,6 @@
 {
-  "python.linting.enabled": false
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false
+  },
+  "python.formatting.autopep8Args": ["--ignore", "E402"]
 }
