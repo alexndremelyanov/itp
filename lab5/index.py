@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import os
 import re
-from beautifultable import BeautifulTable
 import statistics
+import gzip
+import io
+from beautifultable import BeautifulTable
+
 
 default_logs_path = './log'
 
@@ -14,6 +17,12 @@ def main():
     log_name = sorted(os.listdir(relative_logs_path))[-1]
     print(log_name)
     log_path = f'{relative_logs_path}/{log_name}'
+    if os.path.splitext(log_path) == '.gz':
+        with gzip.open(log_path, 'r') as arch:
+            with io.TextIOWrapper(arch, encoding='utf-8') as file:
+                logs = read_logs(file)
+                print_logs(logs)
+
     with open(log_path, 'r') as file:
         logs = read_logs(file)
         print_logs(logs)
