@@ -1,10 +1,19 @@
 import unittest
-from decorator_ import List, JSON
+from unittest.mock import patch, call
+from decorator_ import separated_print
+
+
+@separated_print
+def hello():
+    print('Hello')
 
 
 class Test(unittest.TestCase):
-    def test(self):
-        list = List(['first', 'second'])
-        json = JSON(['parent', {'child': 1}])
-        self.assertEqual(str(list), 'first second')
-        self.assertEqual(str(json), '["parent", {"child": 1}]')
+    @patch('builtins.print')
+    def test(self, mock_print):
+        hello()
+        self.assertEqual(mock_print.mock_calls, [call(
+            '--------------'), call('Hello'), call('--------------')])
+        # hello("Hello")
+        # print(mock_print.mock_calls)
+        # self.assertEqual(mock_print)
